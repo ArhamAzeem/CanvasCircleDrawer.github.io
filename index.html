@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 15 - Canvas Circle Diagnol</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            width: 250px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 1vh 1vh black;
+        }
+
+        h2 {
+            text-align: center;
+            color: rgb(194, 43, 63);
+            text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.582);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: rgb(194, 43, 63);
+            text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.582);
+        }
+
+        input {
+            padding: 8px;
+            width: 240px;
+            border: 1px solid rgb(194, 43, 63);
+            border-radius: 1vh;
+        }
+
+        button {
+            padding: 8px 20px;
+            background-color: rgb(194, 43, 63);
+            color: #fff;
+            font-weight: bold;
+            width: 255px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:active {
+            box-shadow: inset 0 0 15px black;
+        }
+
+        input[type="color"] {
+            width: 260px;
+            border-radius: 5px;
+            padding: 0;
+            border: 2px solid rgb(194, 43, 63);
+        }
+
+        input[type="color"]::-moz-color-swatch {
+            border: none;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+            border-radius: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+             border: none;
+        }
+
+        #pickcolor{
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+        }
+        .color {
+            padding: 8px;
+            border: 1px solid #ffffff;
+            border-radius: 1vh;
+            width: 150px;
+        }
+
+        canvas {
+            border: 1px solid rgb(194, 43, 63);
+            margin-top: 1vh;
+            border-radius: 1vh;
+            width: 100%;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Task 15 - Canvas Circle Diagnol</h2>
+    <form class="input-group">
+        <label>Name</label>
+        <input type="number" id="number" min="1" max="5" placeholder="Enter Number of Circles" onkeyup="createColorPickers()">
+        <label id="colorLabel" style="display: none;">Color</label>
+        <div id="pickcolor"></div>
+    </form>
+    <button onclick="draw()">Draw</button>
+    <canvas id="canvas"></canvas>
+</div>
+
+<script>
+    function draw() {
+        let number = parseInt(document.getElementById("number").value);
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (number < 1) {
+            alert("Enter number of circles Required");
+            return;
+        }
+
+        if (number > 5) {
+            alert("Enter a number less than 5");
+            return;
+        }
+
+        let radius = 15;
+        let canvasWidth = canvas.width;
+        let canvasHeight = canvas.height;
+
+        let gap = Math.min(canvasWidth, canvasHeight) / (number + 1);
+
+        let startX = canvasWidth / 2 - (gap * (number - 1)) / 2;
+        let startY = canvasHeight / 2 + (gap * (number - 1)) / 2;
+
+        for (let i = 0; i < number; i++) {
+            let color = document.getElementById("name-color-" + i).value;
+
+            let horizontalgap = startX + i * gap;
+            let verticalgap = startY - i * gap;
+
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(horizontalgap, verticalgap, radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+
+    function createColorPickers() {
+        let number = parseInt(document.getElementById("number").value);
+        let colorsec = document.getElementById("pickcolor");
+        colorsec.innerHTML = ""; 
+        for (let i = 0; i < number; i++) {
+            let colorPicker = document.createElement("input");
+
+        if (number < 1) {
+            alert("Enter number of circles Required");
+            return;
+        }
+
+        if (number > 5) {
+            alert("Enter a number less than 5");
+            return;
+        }
+
+        if (number > 1 || number < 5) {            
+            document.getElementById("colorLabel").style.display = "block";
+        } else {
+            document.getElementById("colorLabel").style.display = "none";
+        }
+            colorPicker.type = "color";
+            colorPicker.id = "name-color-" + i;
+            colorPicker.value = "#ffffff";
+            colorsec.appendChild(colorPicker);
+        }
+    }
+</script>
+</body>
+</html>
